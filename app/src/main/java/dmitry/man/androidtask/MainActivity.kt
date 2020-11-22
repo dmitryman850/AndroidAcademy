@@ -1,10 +1,10 @@
 package dmitry.man.androidtask
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        when(view) {
+        when (view) {
             mBtnToMovieDetails -> {
                 toMovieDetails()
             }
