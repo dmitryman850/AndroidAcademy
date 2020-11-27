@@ -17,4 +17,10 @@
     <string name="movie_details_chris_evans">Chris Evans</string>
     <string name="movie_details_chris_hemsworth">Chris Hemsworth</string>
     <string name="movie_details_mark_ruffalo">Mark Ruffalo</string>
+    <string name="movies_list_name_list">Movies list</string>
+    <string name="jenre_movies_list">Action, Adventure, Drama</string>
+    <string name="movies_list_reviews">125 REVIEWS</string>
+    <string name="name_film_movies_list">Avengers: End Game</string>
+    <string name="duration_film_movies_list">137 MIN</string>
+    <string name="age_limit_movies_list">13+</string>
 </resources>

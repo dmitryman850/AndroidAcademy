@@ -6,28 +6,27 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
-
-    private lateinit var mBtnToMovieDetails: Button
+class MainActivity : AppCompatActivity(), FragmentMoviesListClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mBtnToMovieDetails = findViewById(R.id.btn_to_movie_details_activity)
-
-        mBtnToMovieDetails.setOnClickListener(this)
-    }
-
-    override fun onClick(view: View?) {
-        when (view) {
-            mBtnToMovieDetails -> {
-                toMovieDetails()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().apply {
+                add(R.id.container_activity_main_top, FragmentMoviesList())
+                    .commit()
             }
         }
     }
 
-    private fun toMovieDetails() {
-        startActivity(Intent(this, MovieDetailsActivity::class.java))
+    override fun toFragmentMoviesDetails() {
+        supportFragmentManager.beginTransaction().apply {
+            addToBackStack(null)
+            add(
+                R.id.container_activity_main_top, FragmentMoviesDetails()
+            )
+                .commit()
+        }
     }
 }

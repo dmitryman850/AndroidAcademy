@@ -16,6 +16,20 @@
     <color name="colorMovieDetailsActorName">@color/white70</color>
     <!-- Movie Details screen -->
 
+    <!-- Movies list screen -->
+    <color name="colorMoviesListNameList">@color/white</color>
+    <color name="colorMoviesListBackground">@color/colorDarkBlue</color>
+    <color name="colorMoviesListFilmGenre">@color/colorPink</color>
+    <color name="colorMoviesListReviewsCounter">@color/colorGray</color>
+    <color name="colorMoviesListFilmName">@color/colorLightOnDarkText</color>
+    <color name="colorMoviesListFilmDuration">@color/colorGrayDark</color>
+    <color name="colorMoviesListAllowedAgeBackground">@color/colorDarkBlue90</color>
+    <color name="colorMoviesListAllowedAgeText">@color/white</color>
+    <color name="colorMoviesListCardViewBackground">#222232</color>
+    <color name="colorMoviesListCardViewContour">#404056</color>
+    <color name="colorMoviesListLike">@color/white70</color>
+    <!-- Movies list screen -->
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -26,7 +40,9 @@
 
     <color name="white70">#B2FFFFFF</color>
     <color name="colorDarkBlue">#191926</color>
+    <color name="colorDarkBlue90">#191926</color>
     <color name="colorGray">#6D6D80</color>
+    <color name="colorGrayDark">#565665</color>
     <color name="colorLightOnDarkText">#ECECEC</color>
     <color name="colorPink">#FF3466</color>
 
