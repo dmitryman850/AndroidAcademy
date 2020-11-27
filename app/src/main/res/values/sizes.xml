@@ -10,4 +10,11 @@
     <dimen name="movie_details_cast_title_size">20sp</dimen>
     <dimen name="movie_details_actor_name_size">12sp</dimen>
 
+    <dimen name="movies_list_name_list_size">14sp</dimen>
+    <dimen name="movies_list_genre_size">8sp</dimen>
+    <dimen name="movies_list_reviews_size">8sp</dimen>
+    <dimen name="movies_list_name_film_size">14sp</dimen>
+    <dimen name="movies_list_duration_film_size">8sp</dimen>
+    <dimen name="movies_list_age_limit_size">12sp</dimen>
+
 </resources>
