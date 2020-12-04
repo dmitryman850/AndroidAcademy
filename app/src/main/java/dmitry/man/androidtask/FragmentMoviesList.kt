@@ -59,7 +59,7 @@ class FragmentMoviesList: Fragment() {
 
     private fun doOnClick(film: Film) {
         fragmentMoviesListRecyclerView?.let {
-            Toast.makeText(context, "Вы выбрали ${film.nameFilm}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Вы выбрали ${film.nameFilm} с ${film.reviewsFilm}", Toast.LENGTH_SHORT).show()
             fragmentMoviesListClickListener?.toFragmentMoviesDetails()
         }
     }
