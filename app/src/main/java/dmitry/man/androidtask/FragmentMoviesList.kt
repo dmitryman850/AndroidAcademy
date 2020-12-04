@@ -1,50 +1,67 @@
 package dmitry.man.androidtask
 
-import android.content.Context
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 class FragmentMoviesList: Fragment() {
-
-    private var mCardViewMovieList: CardView? = null
-    private var mFragmentMoviesListClickListener: FragmentMoviesListClickListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is FragmentMoviesListClickListener) {
-            mFragmentMoviesListClickListener = context
-        }
-    }
+    private var fragmentMoviesListRecyclerView: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_movies_list, container, false)
-        return view
+        return inflater.inflate(R.layout.fragment_movies_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-            mCardViewMovieList = view.findViewById<CardView>(R.id.card_view_film_container)
-            mCardViewMovieList?.apply {
-                setOnClickListener { mFragmentMoviesListClickListener?.toFragmentMoviesDetails() }
-            }
+        fragmentMoviesListRecyclerView = view.findViewById(R.id.recycler_view_fragment_movies_list)
+        fragmentMoviesListRecyclerView?.adapter = MoviesListRecyclerAdapter(clickListener)
+        fragmentMoviesListRecyclerView?.layoutManager = GridLayoutManager(context, 2)
     }
 
+    override fun onStart() {
+        super.onStart()
 
+        updateDate()
+    }
 
     override fun onDetach() {
         super.onDetach()
-        mFragmentMoviesListClickListener = null
+
+        fragmentMoviesListRecyclerView = null
     }
+
+    private fun updateDate() {
+        (fragmentMoviesListRecyclerView?.adapter as? MoviesListRecyclerAdapter)?.apply {
+            bindFilms(FilmsData().getFilmsData())
+        }
+    }
+
+    private fun doOnClick(film: Film) {
+        fragmentMoviesListRecyclerView?.let {
+            Toast.makeText(context, "Вы выбрали ${film.nameFilm}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val clickListener = object : OnRecyclerItemClicked {
+        override fun onClick(film: Film) {
+            doOnClick(film)
+        }
+    }
+
+    companion object {
+        fun newInstanse() = FragmentMoviesList()
+    }
+
 }
 
-interface FragmentMoviesListClickListener {
-    fun toFragmentMoviesDetails()
-}
