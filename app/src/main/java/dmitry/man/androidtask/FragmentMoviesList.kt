@@ -1,6 +1,7 @@
 package dmitry.man.androidtask
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,14 @@ import com.google.android.material.snackbar.Snackbar
 
 class FragmentMoviesList: Fragment() {
     private var fragmentMoviesListRecyclerView: RecyclerView? = null
+    private var fragmentMoviesListClickListener: FragmentMoviesListClickListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is FragmentMoviesListClickListener) {
+            fragmentMoviesListClickListener = context
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +48,7 @@ class FragmentMoviesList: Fragment() {
         super.onDetach()
 
         fragmentMoviesListRecyclerView = null
+        fragmentMoviesListClickListener = null
     }
 
     private fun updateDate() {
@@ -50,6 +60,7 @@ class FragmentMoviesList: Fragment() {
     private fun doOnClick(film: Film) {
         fragmentMoviesListRecyclerView?.let {
             Toast.makeText(context, "Вы выбрали ${film.nameFilm}", Toast.LENGTH_SHORT).show()
+            fragmentMoviesListClickListener?.toFragmentMoviesDetails()
         }
     }
 
@@ -63,5 +74,9 @@ class FragmentMoviesList: Fragment() {
         fun newInstanse() = FragmentMoviesList()
     }
 
+}
+
+interface FragmentMoviesListClickListener {
+    fun toFragmentMoviesDetails()
 }
 
