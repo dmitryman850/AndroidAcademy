@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity(), FragmentMoviesListClickListener {
+class MainActivity : AppCompatActivity(), FragmentMoviesListClickListener, FragmentMoviesDetailsClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +24,12 @@ class MainActivity : AppCompatActivity(), FragmentMoviesListClickListener {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .add(R.id.container_activity_main_top, FragmentMoviesDetails())
+            .commit()
+    }
+
+    override fun backClicked() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container_activity_main_top, FragmentMoviesList())
             .commit()
     }
 
