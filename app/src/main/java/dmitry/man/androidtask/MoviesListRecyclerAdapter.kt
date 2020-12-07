@@ -15,18 +15,23 @@ class MoviesListRecyclerAdapter(
 
     private var films = listOf<Film>()
 
-//    override fun getItemCount(position: Int): Int {
-//        return when (films.size) {
-//            0 -> VIEW_TYPE_EMPTY
-//            else -> VIEW_TYPE_ACTORS
-//        }
-//    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when(films.size) {
+            0 -> VIEW_TYPE_EMPTY
+           else -> VIEW_TYPE_FILMS
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmsViewHolder {
-        return DataViewHolder (
-        LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_movie_list, parent, false)
-        )
+        return when (viewType) {
+            VIEW_TYPE_EMPTY -> DataViewHolder (
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_movie_list_empty, parent, false)
+            )
+            else -> DataViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_movie_list, parent, false))
+        }
     }
 
     override fun onBindViewHolder(holder: FilmsViewHolder, position: Int) {
@@ -61,8 +66,6 @@ private class DataViewHolder(itemView: View): FilmsViewHolder(itemView) {
     private val nameFilm: TextView = itemView.findViewById(R.id.tv_name_film_item_movies_list)
     private val genreFilm: TextView = itemView.findViewById(R.id.tv_genre_item_movies_list)
     private val reviewsFilm: TextView = itemView.findViewById(R.id.tv_reviews_item_movies_list)
-    //private val descriptionFilm: TextView =
-    //private val imageActorOfFilm: ImageView =
     private val nameActorOfFilm: TextView? = null
 
     fun onBind(film: Film) {
@@ -84,3 +87,6 @@ interface OnRecyclerItemClicked {
 
 private val RecyclerView.ViewHolder.context
 get() = this.itemView.context
+
+private const val VIEW_TYPE_EMPTY = 0
+private const val VIEW_TYPE_FILMS = 1

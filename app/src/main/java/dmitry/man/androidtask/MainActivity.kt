@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), FragmentMoviesListClickListener, Fragm
 
     override fun backClicked() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.container_activity_main_top, FragmentMoviesList())
+            .replace(R.id.container_activity_main_top, FragmentMoviesList())
             .commit()
     }
 

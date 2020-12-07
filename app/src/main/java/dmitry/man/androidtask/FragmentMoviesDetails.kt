@@ -8,14 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import org.w3c.dom.Text
 
-class FragmentMoviesDetails: Fragment() {
-    private var nameFilm: TextView? = null
-    private var ageLimit: TextView? = null
+class FragmentMoviesDetails : Fragment() {
     private var backImage: ImageView? = null
     private var backText: TextView? = null
     private var fragmentMoviesDetailsClickListener: FragmentMoviesDetailsClickListener? = null
+    private var data = FilmsData()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -34,14 +32,21 @@ class FragmentMoviesDetails: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        nameFilm = view.findViewById(R.id.tv_name_films_move_details)
         backImage = view.findViewById(R.id.iv_back)
         backText = view.findViewById(R.id.btn_back_main_activity)
+
         backImage?.setOnClickListener { fragmentMoviesDetailsClickListener?.backClicked() }
         backText?.setOnClickListener { fragmentMoviesDetailsClickListener?.backClicked() }
-        //nameFilm?.text = arguments?.getString("saveString")
-        val filmId = arguments?.getInt("KEY_FILM_ID")
-        nameFilm?.text = filmId.toString()
+
+        val filmId = arguments?.getInt(KEY_FILM_ID) ?: 0
+        data.getFilmById(filmId)?.apply {
+            view.findViewById<TextView>(R.id.tv_name_films_move_details)?.text = this.nameFilm
+            view.findViewById<TextView>(R.id.tv_age_limit_movie_details)?.text = this.ageLimit
+            view.findViewById<TextView>(R.id.descripsion_movie_details)?.text = this.descriptionFilm
+            view.findViewById<TextView>(R.id.tv_genre_movie_details)?.text = this.genreFilm
+            view.findViewById<TextView>(R.id.reviews_movie_details)?.text = this.reviewsFilm
+        }
+
     }
 
     override fun onDetach() {
@@ -52,7 +57,7 @@ class FragmentMoviesDetails: Fragment() {
     companion object {
         fun newInstance(filmId: Int): FragmentMoviesDetails {
             val args = Bundle()
-            args.putInt("KEY_FILM_ID", filmId)
+            args.putInt(KEY_FILM_ID, filmId)
             val fragment = FragmentMoviesDetails()
             fragment.arguments = args
             return fragment
