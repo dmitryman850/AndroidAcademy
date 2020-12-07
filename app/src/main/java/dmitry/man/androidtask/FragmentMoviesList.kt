@@ -58,10 +58,8 @@ class FragmentMoviesList: Fragment() {
     }
 
     private fun doOnClick(film: Film) {
-        fragmentMoviesListRecyclerView?.let {
             Toast.makeText(context, "Вы выбрали ${film.nameFilm} с ${film.reviewsFilm}", Toast.LENGTH_SHORT).show()
-            fragmentMoviesListClickListener?.toFragmentMoviesDetails()
-        }
+            fragmentMoviesListClickListener?.toFragmentMoviesDetails(film.filmId)
     }
 
     private val clickListener = object : OnRecyclerItemClicked {
@@ -77,6 +75,6 @@ class FragmentMoviesList: Fragment() {
 }
 
 interface FragmentMoviesListClickListener {
-    fun toFragmentMoviesDetails()
+    fun toFragmentMoviesDetails(filmId: Int)
 }
 

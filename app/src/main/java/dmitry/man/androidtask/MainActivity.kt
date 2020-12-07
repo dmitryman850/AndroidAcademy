@@ -20,10 +20,10 @@ class MainActivity : AppCompatActivity(), FragmentMoviesListClickListener, Fragm
         }
     }
 
-    override fun toFragmentMoviesDetails() {
+    override fun toFragmentMoviesDetails(filmId: Int) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .add(R.id.container_activity_main_top, FragmentMoviesDetails())
+            .add(R.id.container_activity_main_top, FragmentMoviesDetails.newInstance(filmId))
             .commit()
     }
 

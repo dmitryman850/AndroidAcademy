@@ -1,6 +1,7 @@
 package dmitry.man.androidtask
 
 data class Film(
+    val filmId: Int,
     val imageFilm: Int,
     val ageLimit: String,
     val nameFilm: String,

@@ -40,6 +40,8 @@ class FragmentMoviesDetails: Fragment() {
         backImage?.setOnClickListener { fragmentMoviesDetailsClickListener?.backClicked() }
         backText?.setOnClickListener { fragmentMoviesDetailsClickListener?.backClicked() }
         //nameFilm?.text = arguments?.getString("saveString")
+        val filmId = arguments?.getInt("KEY_FILM_ID")
+        nameFilm?.text = filmId.toString()
     }
 
     override fun onDetach() {
@@ -48,9 +50,9 @@ class FragmentMoviesDetails: Fragment() {
     }
 
     companion object {
-        fun newInstance(saveCount: String): FragmentMoviesDetails {
+        fun newInstance(filmId: Int): FragmentMoviesDetails {
             val args = Bundle()
-            args.putString("saveString", saveCount)
+            args.putInt("KEY_FILM_ID", filmId)
             val fragment = FragmentMoviesDetails()
             fragment.arguments = args
             return fragment
@@ -61,3 +63,5 @@ class FragmentMoviesDetails: Fragment() {
 interface FragmentMoviesDetailsClickListener {
     fun backClicked()
 }
+
+private const val KEY_FILM_ID = "KEY_FILM_ID"
