@@ -25,7 +25,7 @@ class MoviesListRecyclerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmsViewHolder {
         return when (viewType) {
-            VIEW_TYPE_EMPTY -> DataViewHolder (
+            VIEW_TYPE_EMPTY -> EmptyViewHolder (
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_movie_list_empty, parent, false)
             )
