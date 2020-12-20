@@ -1,12 +1,11 @@
 package dmitry.man.androidtask
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity(), FragmentMoviesListClickListener, FragmentMoviesDetailsClickListener {
+class MainActivity : AppCompatActivity()
+    , FragmentMoviesListClickListener, FragmentMoviesDetailsClickListener
+{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +19,10 @@ class MainActivity : AppCompatActivity(), FragmentMoviesListClickListener, Fragm
         }
     }
 
-    override fun toFragmentMoviesDetails(filmId: Int) {
+    override fun toFragmentMoviesDetails(id: Int) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .add(R.id.container_activity_main_top, FragmentMoviesDetails.newInstance(filmId))
+            .add(R.id.container_activity_main_top, FragmentMoviesDetails.newInstance(id))
             .commit()
     }
 

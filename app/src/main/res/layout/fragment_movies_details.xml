@@ -87,7 +87,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:src="@drawable/movie_details_star_full"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_genre_movie_details" />
 
@@ -95,7 +94,7 @@
             android:id="@+id/iv_movies_list_star2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/movie_details_star_full"
+            tools:src="@drawable/movie_details_star_empty"
             app:layout_constraintStart_toEndOf="@+id/iv_movies_list_star1"
             app:layout_constraintTop_toBottomOf="@+id/tv_genre_movie_details" />
 
@@ -103,7 +102,7 @@
             android:id="@+id/iv_movies_list_star3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/movie_details_star_full"
+            tools:src="@drawable/movie_details_star_empty"
             app:layout_constraintStart_toEndOf="@+id/iv_movies_list_star2"
             app:layout_constraintTop_toBottomOf="@+id/tv_genre_movie_details" />
 
@@ -111,7 +110,7 @@
             android:id="@+id/iv_movies_list_star4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/movie_details_star_full"
+            tools:src="@drawable/movie_details_star_empty"
             app:layout_constraintStart_toEndOf="@+id/iv_movies_list_star3"
             app:layout_constraintTop_toBottomOf="@+id/tv_genre_movie_details" />
 
@@ -119,7 +118,7 @@
             android:id="@+id/iv_movies_list_star5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/movie_details_star_empty"
+            tools:src="@drawable/movie_details_star_empty"
             app:layout_constraintStart_toEndOf="@+id/iv_movies_list_star4"
             app:layout_constraintTop_toBottomOf="@+id/tv_genre_movie_details" />
 

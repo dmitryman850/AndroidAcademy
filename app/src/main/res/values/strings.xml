@@ -22,7 +22,7 @@
     <string name="movies_list_reviews">125 REVIEWS</string>
     <string name="name_film_movies_list">Avengers: End Game</string>
     <string name="duration_film_movies_list">137 MIN</string>
-    <string name="age_limit_movies_list">13+</string>
+    <string name="age_limit_movies_list">14+</string>
 
     <string name="item_movie_list_empty_txt">Нету фильмов для загрузки</string>
 </resources>
