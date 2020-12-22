@@ -18,10 +18,10 @@ class MainActivity : AppCompatActivity(), FragmentMoviesListClickListener,
         }
     }
 
-    override fun toFragmentMoviesDetails(id: Int) {
+    override fun toFragmentMoviesDetails(filmId: Int) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .add(R.id.container_activity_main_top, FragmentMoviesDetails.newInstance(id))
+            .add(R.id.container_activity_main_top, FragmentMoviesDetails.newInstance(filmId))
             .commit()
     }
 
