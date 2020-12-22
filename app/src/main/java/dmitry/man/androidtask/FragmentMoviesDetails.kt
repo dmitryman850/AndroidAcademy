@@ -14,11 +14,31 @@ import dmitry.man.androidtask.data.loadMovies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FragmentMoviesDetails : Fragment() {
     private var backImage: ImageView? = null
     private var backText: TextView? = null
     private var fragmentMoviesDetailsClickListener: FragmentMoviesDetailsClickListener? = null
+    private var backdropFilm: ImageView? = null
+    private var actor1: ImageView? = null
+    private var actor2: ImageView? = null
+    private var actor3: ImageView? = null
+    private var actor4: ImageView? = null
+    private var actor1Name: TextView? = null
+    private var actor2Name: TextView? = null
+    private var actor3Name: TextView? = null
+    private var actor4Name: TextView? = null
+    private var nameFilm: TextView? = null
+    private var ageLimit: TextView? = null
+    private var descriptionFilm: TextView? = null
+    private var genreFilm: TextView? = null
+    private var reviews: TextView? = null
+    private var starFilm1: ImageView? = null
+    private var starFilm2: ImageView? = null
+    private var starFilm3: ImageView? = null
+    private var starFilm4: ImageView? = null
+    private var starFilm5: ImageView? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,7 +60,26 @@ class FragmentMoviesDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         backImage = view.findViewById(R.id.iv_back)
         backText = view.findViewById(R.id.btn_back_main_activity)
-        val backdrop = view.findViewById<ImageView>(R.id.top_background_movie_details)
+        backdropFilm = view.findViewById(R.id.top_background_movie_details)
+        actor1 = view.findViewById(R.id.iv_actor_1_movie_details)
+        actor2 = view.findViewById(R.id.iv_actor_2_movie_details)
+        actor3 = view.findViewById(R.id.iv_actor_3_movie_details)
+        actor4 = view.findViewById(R.id.iv_actor_4_movie_details)
+        actor1Name = view.findViewById(R.id.tv_actors_1_movie_details)
+        actor2Name = view.findViewById(R.id.tv_actors_2_movie_details)
+        actor3Name = view.findViewById(R.id.tv_actors_3_movie_details)
+        actor4Name = view.findViewById(R.id.tv_actors_4_movie_details)
+        nameFilm = view.findViewById(R.id.tv_name_films_move_details)
+        ageLimit = view.findViewById(R.id.tv_age_limit_movie_details)
+        descriptionFilm = view.findViewById(R.id.descripsion_movie_details)
+        genreFilm = view.findViewById(R.id.tv_genre_movie_details)
+        reviews = view.findViewById(R.id.reviews_movie_details)
+        starFilm1 = view.findViewById(R.id.iv_movies_list_star1)
+        starFilm2 = view.findViewById(R.id.iv_movies_list_star2)
+        starFilm3 = view.findViewById(R.id.iv_movies_list_star3)
+        starFilm4 = view.findViewById(R.id.iv_movies_list_star4)
+        starFilm5 = view.findViewById(R.id.iv_movies_list_star5)
+
 
         backImage?.setOnClickListener { fragmentMoviesDetailsClickListener?.backClicked() }
 
@@ -50,84 +89,134 @@ class FragmentMoviesDetails : Fragment() {
 
         val coroutine = CoroutineScope(Dispatchers.IO)
 
-
-        coroutine.launch(Dispatchers.Main) {
-            getFilmById(id).apply {
-                Glide.with(this@FragmentMoviesDetails)
-                    .load(this?.backdrop)
-                    .into(backdrop)
-                view.findViewById<TextView>(R.id.tv_name_films_move_details)?.text =
-                    this?.title
-                view.findViewById<TextView>(R.id.tv_age_limit_movie_details)?.text =
-                    this?.minimumAge.toString() + "+"
-                view.findViewById<TextView>(R.id.descripsion_movie_details)?.text =
-                    this?.overview
-                view.findViewById<TextView>(R.id.tv_genre_movie_details)?.text =
-                    this?.genres?.joinToString(", ") { genre -> genre.name }
-                view.findViewById<TextView>(R.id.reviews_movie_details)?.text =
-                    this?.numberOfRatings.toString() + " REVIEWS"
-                fillStar(film = getFilmById(id), view)
-            }
+        coroutine.launch {
+            val findFilm = getFilmById(id)
+            bindingFilm(findFilm)
         }
 
     }
 
-    private fun fillStar(film: Film?, itemView: View) {
-        val starFilm1: ImageView = itemView.findViewById(R.id.iv_movies_list_star1)
-        val starFilm2: ImageView = itemView.findViewById(R.id.iv_movies_list_star2)
-        val starFilm3: ImageView = itemView.findViewById(R.id.iv_movies_list_star3)
-        val starFilm4: ImageView = itemView.findViewById(R.id.iv_movies_list_star4)
-        val starFilm5: ImageView = itemView.findViewById(R.id.iv_movies_list_star5)
-        when (film!!.ratings) {
-            in 0.0..2.0 -> {
-                starFilm1.setImageResource(R.drawable.movie_details_star_full)
-                starFilm2.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm3.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm4.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm5.setImageResource(R.drawable.movie_details_star_empty)
-            }
-            in 2.0..4.0 -> {
-                starFilm1.setImageResource(R.drawable.movie_details_star_full)
-                starFilm2.setImageResource(R.drawable.movie_details_star_full)
-                starFilm3.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm4.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm5.setImageResource(R.drawable.movie_details_star_empty)
-            }
-            in 4.0..6.0 -> {
-                starFilm1.setImageResource(R.drawable.movie_details_star_full)
-                starFilm2.setImageResource(R.drawable.movie_details_star_full)
-                starFilm3.setImageResource(R.drawable.movie_details_star_full)
-                starFilm4.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm5.setImageResource(R.drawable.movie_details_star_empty)
-            }
-            in 6.0..8.0 -> {
-                starFilm1.setImageResource(R.drawable.movie_details_star_full)
-                starFilm2.setImageResource(R.drawable.movie_details_star_full)
-                starFilm3.setImageResource(R.drawable.movie_details_star_full)
-                starFilm4.setImageResource(R.drawable.movie_details_star_full)
-                starFilm5.setImageResource(R.drawable.movie_details_star_empty)
-            }
-            in 8.0..10.0 -> {
-                starFilm1.setImageResource(R.drawable.movie_details_star_full)
-                starFilm2.setImageResource(R.drawable.movie_details_star_full)
-                starFilm3.setImageResource(R.drawable.movie_details_star_full)
-                starFilm4.setImageResource(R.drawable.movie_details_star_full)
-                starFilm5.setImageResource(R.drawable.movie_details_star_full)
-            }
-            else -> {
-                starFilm1.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm2.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm3.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm4.setImageResource(R.drawable.movie_details_star_empty)
-                starFilm5.setImageResource(R.drawable.movie_details_star_empty)
-            }
+    @SuppressLint("SetTextI18n")
+    private suspend fun bindingFilm(findFilm: Film?) = withContext(Dispatchers.Main) {
+        backdropFilm?.let {
+            Glide.with(this@FragmentMoviesDetails)
+                .load(findFilm?.backdrop)
+                .into(it)
+        }
+        nameFilm?.text = findFilm?.title
+        ageLimit?.text = findFilm?.minimumAge.toString() + "+"
+        descriptionFilm?.text = findFilm?.overview
+        genreFilm?.text = findFilm?.genres?.joinToString(", ") { genre -> genre.name }
+        reviews?.text = findFilm?.numberOfRatings.toString() + " REVIEWS"
 
+            //TODO(нету актёров) подумать как можно обработать отсутствите данных
+            // что-то по-умолчанию возможно и что делать когда есть 1 или 3 актёра а не 4
+        findFilm?.let {
+            for (i in 0..3) {
+                if (findFilm.actors.isEmpty()) {
+                    when (i) {
+                        0 -> actor1Name?.text = "Нету данных"
+                        1 -> actor2Name?.text = "Нету данных"
+                        2 -> actor3Name?.text = "Нету данных"
+                        3 -> actor4Name?.text = "Нету данных"
+                    }
+                } else {
+                    when (i) {
+                        0 -> {
+                            actor1Name?.text = findFilm.actors[0].name
+                            actor1?.let { it1 ->
+                                Glide.with(this@FragmentMoviesDetails)
+                                    .load(findFilm.actors[0].picture)
+                                    .into(it1)
+                            }
+                        }
+                        1 -> {
+                            actor2Name?.text = findFilm.actors[1].name
+                            actor2?.let { it1 ->
+                                Glide.with(this@FragmentMoviesDetails)
+                                    .load(findFilm.actors[1].picture)
+                                    .into(it1)
+                            }
+                        }
+                        2 -> {
+                            actor3Name?.text = findFilm.actors[2].name
+                            actor3?.let { it1 ->
+                                Glide.with(this@FragmentMoviesDetails)
+                                    .load(findFilm.actors[2].picture)
+                                    .into(it1)
+                            }
+                        }
+                        3 -> {
+                            actor4Name?.text = findFilm.actors[3].name
+                            actor4?.let { it1 ->
+                                Glide.with(this@FragmentMoviesDetails)
+                                    .load(findFilm.actors[3].picture)
+                                    .into(it1)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        view?.let { fillStar(findFilm) }
+
+        }
+
+    private fun fillStar(findFilm: Film?) {
+
+        findFilm?.let {
+            //TODO(обновление цикла) подумать как обновлять рейтинг с помощью цикла
+            when (findFilm.ratings) {
+                in 0.0..2.0 -> {
+                    starFilm1?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm2?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm3?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm4?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm5?.setImageResource(R.drawable.movie_details_star_empty)
+                }
+                in 2.0..4.0 -> {
+                    starFilm1?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm2?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm3?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm4?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm5?.setImageResource(R.drawable.movie_details_star_empty)
+                }
+                in 4.0..6.0 -> {
+                    starFilm1?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm2?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm3?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm4?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm5?.setImageResource(R.drawable.movie_details_star_empty)
+                }
+                in 6.0..8.0 -> {
+                    starFilm1?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm2?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm3?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm4?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm5?.setImageResource(R.drawable.movie_details_star_empty)
+                }
+                in 8.0..10.0 -> {
+                    starFilm1?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm2?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm3?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm4?.setImageResource(R.drawable.movie_details_star_full)
+                    starFilm5?.setImageResource(R.drawable.movie_details_star_full)
+                }
+                else -> {
+                    starFilm1?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm2?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm3?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm4?.setImageResource(R.drawable.movie_details_star_empty)
+                    starFilm5?.setImageResource(R.drawable.movie_details_star_empty)
+                }
+
+            }
         }
     }
 
 
     private suspend fun getFilmById(id: Int): Film? {
-        return context?.let {
+        return context?.let { it ->
             loadMovies(it).find {
                 it.id == id
             }

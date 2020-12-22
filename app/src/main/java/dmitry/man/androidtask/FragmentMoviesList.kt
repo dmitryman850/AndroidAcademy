@@ -37,8 +37,9 @@ class FragmentMoviesList: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragmentMoviesListRecyclerView = view.findViewById(R.id.recycler_view_fragment_movies_list)
-       fragmentMoviesListRecyclerView?.adapter = MoviesListRecyclerAdapter(clickListener)
         fragmentMoviesListRecyclerView?.layoutManager = GridLayoutManager(context, 2)
+       fragmentMoviesListRecyclerView?.adapter = MoviesListRecyclerAdapter(clickListener)
+
 
         // coroutine + IO
         val coroutine = CoroutineScope(Dispatchers.IO)
