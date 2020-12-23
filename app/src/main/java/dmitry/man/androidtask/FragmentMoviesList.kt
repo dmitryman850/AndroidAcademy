@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
+import dmitry.man.androidtask.data.Film
+import dmitry.man.androidtask.data.loadMovies
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FragmentMoviesList: Fragment() {
     private var fragmentMoviesListRecyclerView: RecyclerView? = null
@@ -34,14 +37,13 @@ class FragmentMoviesList: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragmentMoviesListRecyclerView = view.findViewById(R.id.recycler_view_fragment_movies_list)
-        fragmentMoviesListRecyclerView?.adapter = MoviesListRecyclerAdapter(clickListener)
         fragmentMoviesListRecyclerView?.layoutManager = GridLayoutManager(context, 2)
-    }
+       fragmentMoviesListRecyclerView?.adapter = MoviesListRecyclerAdapter(clickListener)
 
-    override fun onStart() {
-        super.onStart()
 
-        updateDate()
+        // coroutine + IO
+        val coroutine = CoroutineScope(Dispatchers.IO)
+        coroutine.launch { updateData() }
     }
 
     override fun onDetach() {
@@ -51,15 +53,22 @@ class FragmentMoviesList: Fragment() {
         fragmentMoviesListClickListener = null
     }
 
-    private fun updateDate() {
+    private suspend fun updateData() {
+        context?.let {
+            val movies = loadMovies(it)
+            updateAdapter(movies)
+        }
+    }
+
+    private suspend fun updateAdapter(movies: List<Film>) = withContext(Dispatchers.Main) {
         (fragmentMoviesListRecyclerView?.adapter as? MoviesListRecyclerAdapter)?.apply {
-            bindFilms(FilmsData().getFilmsData())
+            bindFilms(movies)
         }
     }
 
     private fun doOnClick(film: Film) {
-            Toast.makeText(context, "Вы выбрали ${film.nameFilm} с ${film.reviewsFilm}", Toast.LENGTH_SHORT).show()
-            fragmentMoviesListClickListener?.toFragmentMoviesDetails(film.filmId)
+            //Toast.makeText(context, "Вы выбрали ${film.title} с ${film.overview}", Toast.LENGTH_SHORT).show()
+            fragmentMoviesListClickListener?.toFragmentMoviesDetails(film.id)
     }
 
     private val clickListener = object : OnRecyclerItemClicked {
